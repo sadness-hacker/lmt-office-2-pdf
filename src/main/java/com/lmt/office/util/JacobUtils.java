@@ -86,8 +86,10 @@ public class JacobUtils {
             log.info("转换完成,用时：" + (end - start) + "ms.");
         } catch (Exception e) {
             log.error("word转pdf出错!!!", e);
+            throw new RuntimeException(e);
         }catch(Throwable t){
             log.error("word转pdf出错!!!", t);
+            throw new RuntimeException(t);
         } finally {
             // 关闭word
             Dispatch.call(doc,"Close",false);
@@ -136,6 +138,7 @@ public class JacobUtils {
             log.info("excel转pdf转换完毕！");
         } catch (Exception es) {
             log.error("excel转pdf出错!!!", es);
+            throw new RuntimeException(es);
         } finally {
             if (excel != null) {
                 Dispatch.call(excel, "Close", new Variant(false));
@@ -180,6 +183,7 @@ public class JacobUtils {
             log.info("转换完成...用时：" + (end - start) + "ms.");
         } catch (Exception e) {
             log.error("ppt转pdf转换出错!!!", e);
+            throw new RuntimeException(e);
         } finally {
             Dispatch.call(ppt, "Close");
             log.info("关闭文档");
