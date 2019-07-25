@@ -1,6 +1,7 @@
 package com.lmt.office.servlet;
 
 import com.lmt.office.util.JacobUtils;
+import com.lmt.office.util.LibreOfficeUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletException;
@@ -31,6 +32,18 @@ import static com.lmt.office.util.PropertiesUtils.getUploadPath;
 @MultipartConfig
 @WebServlet(name = "upload-servlet", value = "/upload")
 public class UploadServlet extends HttpServlet {
+
+    /**
+     * 是否是windows系统
+     */
+    private static boolean isWindows = false;
+
+    @Override
+    public void init() throws ServletException {
+        String os = System.getProperty("os.name");
+        isWindows = os != null && os.toUpperCase().contains("windows");
+        super.init();
+    }
 
     /**
      * 获取文件上传接口
@@ -66,7 +79,13 @@ public class UploadServlet extends HttpServlet {
             fileName = newFileName(fileName);
             part.write(savePath + File.separator + fileName);
             String pdfFileName = getPdfFileName(fileName);
-            JacobUtils.file2pdf(savePath + File.separator + fileName, savePath + File.separator + pdfFileName);
+            if (isWindows) {
+                // Windows系统使用MS Office
+                JacobUtils.file2pdf(savePath + File.separator + fileName, savePath + File.separator + pdfFileName);
+            } else {
+                // 非Windows系统使用LibreOffice
+                LibreOfficeUtils.file2pdf(savePath + File.separator + fileName, savePath + File.separator + pdfFileName);
+            }
             String dl = getDownloadUrl() + "?file=" + URLEncoder.encode(pdfFileName, "UTF-8");
             String previewUrl = getPreviewUrl() + "?file=" + URLEncoder.encode(pdfFileName, "UTF-8");
             response.setContentType("application/json;charset=UTF-8");
@@ -127,4 +146,5 @@ public class UploadServlet extends HttpServlet {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         return sdf.format(new Date()) + "-" + fileName;
     }
+
 }

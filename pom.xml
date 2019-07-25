@@ -15,7 +15,7 @@
             <artifactId>jacob</artifactId>
             <version>1.19</version>
             <scope>system</scope>
-            <systemPath>C:/迅雷下载/jacob-1.19/jacob.jar</systemPath>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/jacob.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -63,7 +63,11 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.3</version>
+            </plugin>
         </plugins>
     </build>
 </project>

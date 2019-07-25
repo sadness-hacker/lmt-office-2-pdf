@@ -1,5 +1,7 @@
 package com.lmt.office.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Properties;
 
@@ -8,6 +10,7 @@ import java.util.Properties;
  * @author bazhandao
  * @date 2019-07-17
  */
+@Slf4j
 public class PropertiesUtils {
 
     /**
@@ -15,7 +18,18 @@ public class PropertiesUtils {
      */
     private static final String CONFIG_FILE = "application.properties";
 
-    private static Properties properties;
+    private static Properties properties = getProperties();
+
+    private static Properties getProperties() {
+        try {
+            Properties properties = new Properties();
+            properties.load(PropertiesUtils.class.getClassLoader().getResourceAsStream(CONFIG_FILE));
+            return properties;
+        } catch (Exception e) {
+            log.error("加载配置文件出错!!!file={},{}", CONFIG_FILE, e);
+        }
+        return null;
+    }
 
     /**
      * 获取上传文件路径
@@ -26,10 +40,6 @@ public class PropertiesUtils {
      */
     public static String getUploadPath(HttpServletRequest request) {
         try {
-            if (properties == null) {
-                properties = new Properties();
-                properties.load(PropertiesUtils.class.getClassLoader().getResourceAsStream(CONFIG_FILE));
-            }
             String uploadPath = properties.getProperty("file.upload.path");
             if (uploadPath == null || uploadPath.trim().equals("")) {
                 uploadPath = request.getServletContext().getRealPath("/WEB-INF/upload");
@@ -48,10 +58,6 @@ public class PropertiesUtils {
      */
     public static String getDownloadUrl() {
         try {
-            if (properties == null) {
-                properties = new Properties();
-                properties.load(PropertiesUtils.class.getClassLoader().getResourceAsStream(CONFIG_FILE));
-            }
             String downloadUrl = properties.getProperty("file.download.url");
             return downloadUrl;
         } catch (Exception e) {
@@ -67,11 +73,22 @@ public class PropertiesUtils {
      */
     public static String getPreviewUrl() {
         try {
-            if (properties == null) {
-                properties = new Properties();
-                properties.load(PropertiesUtils.class.getClassLoader().getResourceAsStream(CONFIG_FILE));
-            }
             String downloadUrl = properties.getProperty("file.preview.url");
+            return downloadUrl;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * 获取LibreOffice命令
+     * @author bazhandao
+     * @date 2019-07-25
+     * @return
+     */
+    public static String getLibreOfficeCmd() {
+        try {
+            String downloadUrl = properties.getProperty("libreoffice.cmd");
             return downloadUrl;
         } catch (Exception e) {
             return null;

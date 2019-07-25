@@ -1,10 +1,21 @@
 #Word/Excel/PPT转PDF
 ### 1.环境要求
 ```
+主意application.properties文件里的配置
+
 基于Jacob实现，需要运行在Windows下，Windows服务器需要安装Office 2007套件，JDK1.8以上，Tomcat 8以上
 Tomcat需要配置java.library.path
 拷贝WEB-INF/lib下的jar包到Tomcat根目录下的ext-lib目录，修改catalina文件,添加：
 set "JAVA_OPTS=%JAVA_OPTS% -Djava.library.path=%CATALINA_HOME%/ext-lib"
+
+Linux下需要安装LibreOffice-6.2.5:
+https://mirrors.tuna.tsinghua.edu.cn/libreoffice/libreoffice/stable/6.2.5/rpm/x86_64/
+
+需要安装simsum.ttc字体:
+http://www.pc6.com/softview/SoftView_100415.html
+
+# cp simsun.ttc /usr/share/fonts
+# fc-cache -fv
 ```
 
 ### 2.文件上传接口/upload
