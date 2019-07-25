@@ -11,6 +11,11 @@ set "JAVA_OPTS=%JAVA_OPTS% -Djava.library.path=%CATALINA_HOME%/ext-lib"
 Linux下需要安装LibreOffice-6.2.5:
 https://mirrors.tuna.tsinghua.edu.cn/libreoffice/libreoffice/stable/6.2.5/rpm/x86_64/
 
+LibreOffice_6.2.5_Linux_x86-64_rpm_langpack_zh-CN.tar.gz
+LibreOffice_6.2.5_Linux_x86-64_rpm_sdk.tar.gz
+LibreOffice_6.2.5_Linux_x86-64_rpm.tar.gz
+
+
 需要安装simsum.ttc字体:
 http://www.pc6.com/softview/SoftView_100415.html
 
